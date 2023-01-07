@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from datetime import datetime
 
+
 TW_2330 = pd.read_csv("C:/Users/a0919/Desktop/github/Tai-Chives/data/2330.TW.csv")
 TW_2330 = TW_2330.set_index(pd.to_datetime(TW_2330['Date'], format = "%Y/%m/%d"))
 TW_2330 = TW_2330.drop('Date', axis = 1)

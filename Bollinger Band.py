@@ -103,37 +103,7 @@ window= tk.Tk()
 start= mclass (window)
 window.mainloop()
 
-##MACD
-EMA_12 = TW_2330['Adj Close'].ewm(span=12).mean()
-EMA_26 = TW_2330['Adj Close'].ewm(span=26).mean()
-DIF = EMA_12 - EMA_26
-DEM = DIF.ewm(span=9).mean()
-bar_MACD = DIF - DEM
-
-plt.plot(TW_2330['Date'], DIF, color = "purple")
-plt.plot(TW_2330['Date'], DEM, color = "yellow")
-
-plt.title("MACD for 2330")
-plt.xlabel('Date')
-plt.show()
 
 
 
-fig,ax = plt.subplots(3,1,figsize=(10,10))
-plt.subplots_adjust(hspace=0.8)
-EMA_12.plot(ax=ax[1])
-EMA_26.plot(ax=ax[1])
-TW_2330['Adj Close'].plot(ax=ax[0])
-TW_2330['Adj Close'].plot(ax=ax[1])
-ax[0].legend()
-ax[1].legend()
-DIF.plot(ax=ax[2])
-DEM.plot(ax=ax[2])
-ax[2].fill_between(TW_2330.Date,0,bar_MACD)
-ax[2].legend()
-plt.show()
 
-##OBV
-
-
-##RSI

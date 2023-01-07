@@ -11,6 +11,8 @@ import ffn
 from FinMind.Data import Load
 import requests
 import tkinter
+import matplotlib
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 import pandas as pd
@@ -66,17 +68,42 @@ class investment:
 
         fig,ax = plt.subplots(2,1,figsize=(10,10))
         plt.subplots_adjust(hspace=0.8)
-        EMA_12.plot(ax=ax[0], color = "purple")
-        EMA_26.plot(ax=ax[0], color = "yellow")
-        Close.plot(ax=ax[0], color = "blue")
+        EMA_12.plt.plot(ax=ax[0], color = "purple")
+        EMA_26.plt.plot(ax=ax[0], color = "yellow")
+        self.Close.plt.plot(ax=ax[0], color = "blue")
         ax[0].legend()
-        DIF.plot(ax=ax[1])
-        DEM.plot(ax=ax[1])
+        DIF.plt.plot(ax=ax[1])
+        DEM.plt.plot(ax=ax[1])
         ax[1].fill_between(self.data.index,0,bar_MACD)
         ax[1].legend()
         plt.show()
         
     def RSI(self):
+        def U_calc(num):
+            if num >= 0:
+                return num
+            else:
+                return 0
+
+        def D_calc(num):
+            num = -num
+            return U_calc(num)
+        
+        U = self.spraed.apply(U_calc)
+        D = self.spraed.apply(D_calc)
+        
+        EMA_U = U.ewm(span = 14).mean()
+        EMA_D = D.ewm(span = 14).mean()
+        
+        RS = EMA_U.div(EMA_D)
+        RSI = RS.apply(lambda rs: rs / (1 + rs) * 100)
+        
+        plt.figure(figsize = (10,10))
+        plt.plot(RSI)
+        plt.plot(self.date, [70] * len(self.date))
+        plt.plot(self.date, [30] * len(self.date))
+        plt.legend()
+        plt.show()
         
     def OBV(self):
         
